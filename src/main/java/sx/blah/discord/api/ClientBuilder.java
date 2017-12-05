@@ -41,12 +41,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class ClientBuilder {
 
-	/**
-	 * The default amount of messages which may be cached by channels.
-	 * @see sx.blah.discord.util.MessageHistory
-	 */
-	public static final int DEFAULT_MESSAGE_CACHE_LIMIT = 256;
-
 	private int[] shard = null;
 	private boolean withRecommendedShardCount = false;
 	private int maxMissedPings = -1;
@@ -55,7 +49,6 @@ public class ClientBuilder {
 	private int shardCount = 1;
 	private int maxReconnectAttempts = 5;
 	private int retryCount = 5;
-	private int maxCacheCount = DEFAULT_MESSAGE_CACHE_LIMIT;
 	private ICacheDelegateProvider provider = Cache.DEFAULT_PROVIDER;
 	private RejectedExecutionHandler backpressureHandler = new EventDispatcher.CallerRunsPolicy();
 	private int minimumPoolSize = 1;
@@ -155,18 +148,6 @@ public class ClientBuilder {
 	 */
 	public ClientBuilder setMaxReconnectAttempts(int maxReconnectAttempts) {
 		this.maxReconnectAttempts = maxReconnectAttempts;
-		return this;
-	}
-
-	/**
-	 * Configures the max number of messages which are cached for each channel.
-	 *
-	 * @param maxCacheCount The maximum number of messages which are cached for each channel. A negative value indicates
-	 *                      infinite caching while <code>0</code> indicates no caching.
-	 * @return The builder instance.
-	 */
-	public ClientBuilder setMaxMessageCacheCount(int maxCacheCount) {
-		this.maxCacheCount = maxCacheCount;
 		return this;
 	}
 
@@ -450,7 +431,7 @@ public class ClientBuilder {
 		}
 
 		final IDiscordClient client = new DiscordClientImpl(botToken, shard != null ? -1 : shardCount, isDaemon,
-				maxMissedPings, maxReconnectAttempts, retryCount, maxCacheCount, provider, shard, backpressureHandler,
+				maxMissedPings, maxReconnectAttempts, retryCount, provider, shard, backpressureHandler,
 				minimumPoolSize, maximumPoolSize, overflowCapacity, eventThreadTimeout, eventThreadTimeoutUnit,
 				status == null ? null : new PresenceUpdateRequest(status, playingText, streamUrl));
 

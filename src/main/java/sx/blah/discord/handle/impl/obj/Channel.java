@@ -68,11 +68,6 @@ public class Channel implements IChannel {
 	protected final long id;
 
 	/**
-	 * The cached messages that have been sent in the channel.
-	 */
-	public final Cache<IMessage> messages;
-
-	/**
 	 * The parent guild of the channel.
 	 */
 	protected final IGuild guild;
@@ -141,7 +136,6 @@ public class Channel implements IChannel {
 		this.roleOverrides = roleOverrides;
 		this.userOverrides = userOverrides;
 		this.isNSFW = isNSFW;
-		this.messages = new Cache<>(client, IMessage.class);
 		this.webhooks = new Cache<>(client, IWebhook.class);
 		this.categoryID = categoryID;
 	}
@@ -167,23 +161,6 @@ public class Channel implements IChannel {
 	}
 
 	/**
-	 * Adds a message to the internal message CACHE.
-	 *
-	 * @param message The message to add.
-	 */
-	public void addToCache(IMessage message) {
-		if (getMaxInternalCacheCount() < 0) {
-			messages.put(message);
-		} else if (getMaxInternalCacheCount() != 0) {
-			if (getInternalCacheCount() == getMaxInternalCacheCount()) {
-				messages.remove(messages.longIDs().stream().mapToLong(it -> it).min().getAsLong()); //Lowest id should be the earliest
-			}
-
-			messages.put(message);
-		}
-	}
-
-	/**
 	 * Makes a request to Discord for message history.
 	 *
 	 * @param before The ID of the message to get message history before.
@@ -202,30 +179,21 @@ public class Channel implements IChannel {
 	}
 
 	@Override
-	public MessageHistory getMessageHistory() {
-		return new MessageHistory(messages.values());
-	}
-
-	@Override
 	public MessageHistory getMessageHistory(int messageCount) {
-		if (messageCount <= messages.size()) { // we already have all of the wanted messages in the cache
-			return new MessageHistory(messages.values().stream().limit(messageCount).collect(Collectors.toList()));
-		} else {
-			List<IMessage> retrieved = new ArrayList<>(messageCount);
-			AtomicLong lastMessage = new AtomicLong(DiscordUtils.getSnowflakeFromTimestamp(System.currentTimeMillis()));
-			int chunkSize = messageCount < MESSAGE_CHUNK_COUNT ? messageCount : MESSAGE_CHUNK_COUNT;
+		List<IMessage> retrieved = new ArrayList<>(messageCount);
+		AtomicLong lastMessage = new AtomicLong(DiscordUtils.getSnowflakeFromTimestamp(System.currentTimeMillis()));
+		int chunkSize = messageCount < MESSAGE_CHUNK_COUNT ? messageCount : MESSAGE_CHUNK_COUNT;
 
-			while (retrieved.size() < messageCount) { // while we dont have messageCount messages
-				IMessage[] chunk = getHistory(lastMessage.get(), chunkSize);
+		while (retrieved.size() < messageCount) { // while we dont have messageCount messages
+			IMessage[] chunk = getHistory(lastMessage.get(), chunkSize);
 
-				if (chunk.length == 0) break;
+			if (chunk.length == 0) break;
 
-				lastMessage.set(chunk[chunk.length - 1].getLongID());
-				Collections.addAll(retrieved, chunk);
-			}
-
-			return new MessageHistory(retrieved.size() > messageCount ? retrieved.subList(0, messageCount) : retrieved);
+			lastMessage.set(chunk[chunk.length - 1].getLongID());
+			Collections.addAll(retrieved, chunk);
 		}
+
+		return new MessageHistory(retrieved.size() > messageCount ? retrieved.subList(0, messageCount) : retrieved);
 	}
 
 	@Override
@@ -360,27 +328,13 @@ public class Channel implements IChannel {
 	}
 
 	@Override
-	public int getMaxInternalCacheCount() {
-		return client.getMaxCacheCount();
-	}
-
-	@Override
-	public int getInternalCacheCount() {
-		synchronized (messages) {
-			return messages.size();
-		}
-	}
-
-	@Override
 	public IMessage getMessageByID(long messageID) {
-		return messages.getOrElseGet(messageID, () -> {
-			PermissionUtils.requirePermissions(this, client.getOurUser(), Permissions.READ_MESSAGES, Permissions.READ_MESSAGE_HISTORY);
-			return RequestBuffer.request(() ->
-					(IMessage) DiscordUtils.getMessageFromJSON(this, client.REQUESTS.GET.makeRequest(
-							DiscordEndpoints.CHANNELS + this.getStringID() + "/messages/" + Long.toUnsignedString(messageID),
-							MessageObject.class))
-			).get();
-		});
+		PermissionUtils.requirePermissions(this, client.getOurUser(), Permissions.READ_MESSAGES, Permissions.READ_MESSAGE_HISTORY);
+		return RequestBuffer.request(() ->
+				(IMessage) DiscordUtils.getMessageFromJSON(this, client.REQUESTS.GET.makeRequest(
+						DiscordEndpoints.CHANNELS + this.getStringID() + "/messages/" + Long.toUnsignedString(messageID),
+						MessageObject.class))
+		).get();
 	}
 
 	@Override

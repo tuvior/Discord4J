@@ -341,31 +341,6 @@ public interface IDiscordClient {
 	IRole getRoleByID(long roleID);
 
 	/**
-	 * Gets a list of all messages in the client's message cache.
-	 *
-	 * @param includePrivate Whether to include private messages.
-	 * @return A list of all cached messages.
-	 */
-	List<IMessage> getMessages(boolean includePrivate);
-
-	/**
-	 * Gets a list of all messages in the client's message cache.
-	 *
-	 * <p>This is equivalent to <code>getMessages(true)</code>
-	 *
-	 * @return A list of all cached messages.
-	 */
-	List<IMessage> getMessages();
-
-	/**
-	 * Gets a message by its unique snowflake ID from the client's message cache.
-	 *
-	 * @param messageID The ID of the desired message.
-	 * @return The message with the provided ID (or null if one was not found).
-	 */
-	IMessage getMessageByID(long messageID);
-
-	/**
 	 * Gets the private channel for a user or creates it if one doesn't exist.
 	 *
 	 * @param user The user to get the private channel for.

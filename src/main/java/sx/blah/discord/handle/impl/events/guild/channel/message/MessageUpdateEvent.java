@@ -17,38 +17,12 @@
 
 package sx.blah.discord.handle.impl.events.guild.channel.message;
 
-import sx.blah.discord.handle.obj.IMessage;
-
 /**
  * Dispatched when a message is updated.
- * <p>
- * NOTE: This event will always fire, regardless if the message was previously cached.
  */
 public class MessageUpdateEvent extends MessageEvent {
 
-	private final IMessage oldMessage, newMessage;
-
-	public MessageUpdateEvent(IMessage oldMessage, IMessage newMessage) {
-		super(newMessage);
-		this.oldMessage = oldMessage;
-		this.newMessage = newMessage;
-	}
-
-	/**
-	 * Gets the message before it was updated. Can be null if there was no previous message to compare to.
-	 *
-	 * @return The message before it was updated, or null if the message was not cached before the update.
-	 */
-	public IMessage getOldMessage() {
-		return oldMessage;
-	}
-
-	/**
-	 * Gets the message after it was updated.
-	 *
-	 * @return The message after it was updated.
-	 */
-	public IMessage getNewMessage() {
-		return newMessage;
+	public MessageUpdateEvent(long channelId, long messageId) {
+		super(channelId, messageId);
 	}
 }

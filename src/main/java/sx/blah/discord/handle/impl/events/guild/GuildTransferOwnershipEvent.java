@@ -17,7 +17,6 @@
 
 package sx.blah.discord.handle.impl.events.guild;
 
-import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
 
 /**
@@ -27,8 +26,8 @@ public class GuildTransferOwnershipEvent extends GuildEvent {
 
 	private final IUser oldOwner, newOwner;
 
-	public GuildTransferOwnershipEvent(IUser oldOwner, IUser newOwner, IGuild guild) {
-		super(guild);
+	public GuildTransferOwnershipEvent(IUser oldOwner, IUser newOwner, long guildId) {
+		super(guildId);
 		this.oldOwner = oldOwner;
 		this.newOwner = newOwner;
 	}

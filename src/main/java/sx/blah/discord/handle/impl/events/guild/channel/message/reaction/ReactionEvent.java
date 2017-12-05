@@ -18,6 +18,7 @@
 package sx.blah.discord.handle.impl.events.guild.channel.message.reaction;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageEvent;
+import sx.blah.discord.handle.impl.obj.ReactionEmoji;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IReaction;
 import sx.blah.discord.handle.obj.IUser;
@@ -27,11 +28,11 @@ import sx.blah.discord.handle.obj.IUser;
  */
 public abstract class ReactionEvent extends MessageEvent {
 
-	private final IReaction reaction;
+	private final ReactionEmoji reaction;
 	private final IUser user;
 
-	public ReactionEvent(IMessage message, IReaction reaction, IUser user) {
-		super(message);
+	public ReactionEvent(long channelId, long messageId, ReactionEmoji reaction, IUser user) {
+		super(channelId, messageId);
 		this.reaction = reaction;
 		this.user = user;
 	}
@@ -41,7 +42,7 @@ public abstract class ReactionEvent extends MessageEvent {
 	 *
 	 * @return The reaction object.
 	 */
-	public IReaction getReaction() {
+	public ReactionEmoji getReaction() {
 		return reaction;
 	}
 
@@ -52,16 +53,5 @@ public abstract class ReactionEvent extends MessageEvent {
 	 */
 	public IUser getUser() {
 		return user;
-	}
-
-	/**
-	 * Gets the number of users who have reacted with the same reaction.
-	 *
-	 * <p>This is equivalent to <code>getReaction().getCount()</code>
-	 *
-	 * @return The number of users who have reacted with the same reaction.
-	 */
-	public int getCount() {
-		return reaction.getCount();
 	}
 }

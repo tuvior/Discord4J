@@ -17,7 +17,6 @@
 
 package sx.blah.discord.handle.impl.events.guild.member;
 
-import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
 
 import java.util.Optional;
@@ -29,8 +28,8 @@ public class NicknameChangedEvent extends GuildMemberEvent {
 
 	private final String oldNickname, newNickname;
 
-	public NicknameChangedEvent(IGuild guild, IUser user, String oldNickname, String newNickname) {
-		super(guild, user);
+	public NicknameChangedEvent(long guildId, IUser user, String oldNickname, String newNickname) {
+		super(guildId, user);
 		this.oldNickname = oldNickname;
 		this.newNickname = newNickname;
 	}

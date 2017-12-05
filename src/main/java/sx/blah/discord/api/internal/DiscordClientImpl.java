@@ -127,11 +127,6 @@ public final class DiscordClientImpl implements IDiscordClient {
 	private final int retryCount;
 
 	/**
-	 * The maximum number of messages that will be cached per channel.
-	 */
-	private final int maxCacheCount;
-
-	/**
 	 * The presence object that should be sent to Discord when identifying.
 	 */
 	private final PresenceUpdateRequest identifyPresence;
@@ -142,7 +137,7 @@ public final class DiscordClientImpl implements IDiscordClient {
 	private volatile long applicationOwnerID;
 
 	public DiscordClientImpl(String token, int shardCount, boolean isDaemon, int maxMissedPings, int maxReconnectAttempts,
-							 int retryCount, int maxCacheCount, ICacheDelegateProvider provider, int[] shard,
+							 int retryCount, ICacheDelegateProvider provider, int[] shard,
 							 RejectedExecutionHandler backpressureHandler, int minimumPoolSize, int maximumPoolSize,
 							 int overflowCapacity, long eventThreadTimeout, TimeUnit eventThreadTimeoutUnit,
 							 PresenceUpdateRequest identifyPresence) {
@@ -151,7 +146,6 @@ public final class DiscordClientImpl implements IDiscordClient {
 		this.maxMissedPings = maxMissedPings;
 		this.isDaemon = isDaemon;
 		this.shardCount = shardCount == -1 ? 1 : shardCount;
-		this.maxCacheCount = maxCacheCount;
 		this.cacheProvider = provider;
 		this.shard = shard;
 		this.dispatcher = new EventDispatcher(this, backpressureHandler, minimumPoolSize, maximumPoolSize,
@@ -657,33 +651,6 @@ public final class DiscordClientImpl implements IDiscordClient {
 	}
 
 	@Override
-	public List<IMessage> getMessages(boolean includePrivate) {
-		return getShards().stream()
-				.map(c -> c.getMessages(includePrivate))
-				.flatMap(List::stream)
-				.collect(Collectors.toList());
-	}
-
-	@Override
-	public List<IMessage> getMessages() {
-		return getShards().stream()
-				.map(IShard::getMessages)
-				.flatMap(List::stream)
-				.collect(Collectors.toList());
-	}
-
-	@Override
-	public IMessage getMessageByID(long messageID) {
-		for (IShard shard : shards) {
-			IMessage message = shard.getMessageByID(messageID);
-			if (message != null)
-				return message;
-		}
-
-		return null;
-	}
-
-	@Override
 	public IPrivateChannel getOrCreatePMChannel(IUser user) {
 		return user.getShard().getOrCreatePMChannel(user);
 	}
@@ -696,10 +663,6 @@ public final class DiscordClientImpl implements IDiscordClient {
 
 	public int getRetryCount() {
 		return retryCount;
-	}
-
-	public int getMaxCacheCount() {
-		return maxCacheCount;
 	}
 
 	public ICacheDelegateProvider getCacheProvider() {

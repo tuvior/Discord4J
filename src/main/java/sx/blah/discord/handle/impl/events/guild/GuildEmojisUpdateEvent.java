@@ -30,8 +30,8 @@ public class GuildEmojisUpdateEvent extends GuildEvent {
 	private final List<IEmoji> oldEmojis;
 	private final List<IEmoji> newEmojis;
 
-	public GuildEmojisUpdateEvent(IGuild guild, List<IEmoji> oldEmojis, List<IEmoji> newEmojis){
-		super(guild);
+	public GuildEmojisUpdateEvent(long guildId, List<IEmoji> oldEmojis, List<IEmoji> newEmojis){
+		super(guildId);
 		this.oldEmojis = oldEmojis;
 		this.newEmojis = newEmojis;
 	}

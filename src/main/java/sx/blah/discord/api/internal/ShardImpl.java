@@ -298,27 +298,6 @@ public class ShardImpl implements IShard {
 	}
 
 	@Override
-	public List<IMessage> getMessages(boolean includePrivate) {
-		return getChannels(includePrivate).stream()
-				.map(IChannel::getMessageHistory)
-				.flatMap(List::stream)
-				.collect(Collectors.toList());
-	}
-
-	@Override
-	public List<IMessage> getMessages() {
-		return getMessages(false);
-	}
-
-	@Override
-	public IMessage getMessageByID(long messageID) {
-		IMessage message = guildCache.findResult((guildID, guild) -> guild.getMessageByID(messageID));
-		if (message == null)
-			message = privateChannels.findResult((channelID, channel) -> channel.getMessageByID(messageID));
-		return message;
-	}
-
-	@Override
 	public IPrivateChannel getOrCreatePMChannel(IUser user) {
 		checkReady("get PM channel");
 

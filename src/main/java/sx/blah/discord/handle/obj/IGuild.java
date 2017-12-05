@@ -512,14 +512,6 @@ public interface IGuild extends IDiscordObject<IGuild> {
 	LocalDateTime getJoinTimeForUser(IUser user);
 
 	/**
-	 * Gets a message by its unique snowflake ID from the guild's message cache.
-	 *
-	 * @param id The ID of the desired message.
-	 * @return The message with the provided ID (or null if one was not found).
-	 */
-	IMessage getMessageByID(long id);
-
-	/**
 	 * Gets the guild's emojis.
 	 *
 	 * @return The guild's emojis.

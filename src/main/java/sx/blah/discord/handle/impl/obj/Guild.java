@@ -783,31 +783,6 @@ public class Guild implements IGuild {
 	}
 
 	@Override
-	public IMessage getMessageByID(long id) {
-		IMessage message =  channels.stream()
-				.map(IChannel::getMessageHistory)
-				.flatMap(List::stream)
-				.filter(msg -> msg.getLongID() == id)
-				.findAny().orElse(null);
-
-		if (message == null) {
-			Collection<IChannel> toCheck = channels.stream()
-					.filter(it -> {
-						EnumSet<Permissions> perms = it.getModifiedPermissions(client.getOurUser());
-						return perms.contains(Permissions.READ_MESSAGE_HISTORY) && perms.contains(Permissions.READ_MESSAGES);
-					})
-					.collect(Collectors.toSet());
-			for (IChannel channel : toCheck) {
-				message = channel.getMessageByID(id);
-				if (message != null)
-					return message;
-			}
-		}
-
-		return message;
-	}
-
-	@Override
 	public IDiscordClient getClient() {
 		return client;
 	}

@@ -27,7 +27,15 @@ import sx.blah.discord.handle.obj.IMessage;
  */
 public class MessageSendEvent extends MessageEvent {
 
+	private final IMessage message;
+
 	public MessageSendEvent(IMessage message) {
-		super(message);
+		super(message.getChannel().getLongID(), message.getLongID());
+		this.message = message;
+	}
+
+	@Override
+	public IMessage getMessage() {
+		return message;
 	}
 }

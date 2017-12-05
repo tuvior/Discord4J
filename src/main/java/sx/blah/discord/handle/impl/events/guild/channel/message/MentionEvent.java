@@ -21,12 +21,16 @@ import sx.blah.discord.handle.obj.IMessage;
 
 /**
  * Dispatched when the bot is @mentioned in a message.
- *
+ * <p>
  * <p>Note: When the bot is mentioned, this event is dispatched <b>as well as</b> {@link MessageReceivedEvent}.
  */
 public class MentionEvent extends MessageEvent {
 
 	public MentionEvent(IMessage message) {
-		super(message);
+		this(message.getChannel().getLongID(), message.getLongID());
+	}
+
+	public MentionEvent(long channelId, long messageId) {
+		super(channelId, messageId);
 	}
 }

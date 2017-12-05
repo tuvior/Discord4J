@@ -24,7 +24,15 @@ import sx.blah.discord.handle.obj.IChannel;
  */
 public class ChannelDeleteEvent extends ChannelEvent {
 
+	private final IChannel channel;
+
 	public ChannelDeleteEvent(IChannel channel) {
-		super(channel);
+		super(channel.getGuild().getLongID(), channel.getLongID());
+		this.channel = channel;
+	}
+
+	@Override
+	public IChannel getChannel() {
+		return channel;
 	}
 }

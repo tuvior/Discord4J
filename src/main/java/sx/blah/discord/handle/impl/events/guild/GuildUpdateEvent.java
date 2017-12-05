@@ -27,7 +27,7 @@ public class GuildUpdateEvent extends GuildEvent {
 	private final IGuild oldGuild, newGuild;
 
 	public GuildUpdateEvent(IGuild oldGuild, IGuild newGuild) {
-		super(newGuild);
+		super(newGuild.getLongID());
 		this.oldGuild = oldGuild;
 		this.newGuild = newGuild;
 	}

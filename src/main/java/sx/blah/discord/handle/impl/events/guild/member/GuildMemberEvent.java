@@ -18,7 +18,6 @@
 package sx.blah.discord.handle.impl.events.guild.member;
 
 import sx.blah.discord.handle.impl.events.guild.GuildEvent;
-import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
 
 /**
@@ -28,8 +27,8 @@ public abstract class GuildMemberEvent extends GuildEvent {
 
 	private final IUser user;
 
-	public GuildMemberEvent(IGuild guild, IUser user) {
-		super(guild);
+	public GuildMemberEvent(long guildId, IUser user) {
+		super(guildId);
 		this.user = user;
 	}
 

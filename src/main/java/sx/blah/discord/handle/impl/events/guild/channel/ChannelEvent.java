@@ -25,11 +25,11 @@ import sx.blah.discord.handle.obj.IChannel;
  */
 public abstract class ChannelEvent extends GuildEvent {
 
-	private final IChannel channel;
+	private final long channelId;
 
-	public ChannelEvent(IChannel channel) {
-		super(channel.isPrivate() ? null : channel.getGuild());
-		this.channel = channel;
+	public ChannelEvent(long guildId, long channelId) {
+		super(guildId);
+		this.channelId = channelId;
 	}
 
 	/**
@@ -38,6 +38,10 @@ public abstract class ChannelEvent extends GuildEvent {
 	 * @return The channel involved.
 	 */
 	public IChannel getChannel() {
-		return channel;
+		return getClient().getChannelByID(channelId);
+	}
+
+	public long getChannelId() {
+		return channelId;
 	}
 }

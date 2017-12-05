@@ -106,6 +106,7 @@ public class TestBot {
 									buildNumber, MessageBuilder.Styles.BOLD).build();
 
 							//Clearing spoofbot's mess from before
+							/*
 							synchronized (client) {
 								for (IMessage message : spoofChannel.getMessageHistory()) {
 									RequestBuffer.request(() -> {
@@ -117,6 +118,7 @@ public class TestBot {
 									});
 								}
 							}
+							*/
 
 							//Time to unleash the ai
 							SpoofBot spoofBot = new SpoofBot(client, System.getenv("SPOOF"), Long.parseUnsignedLong(System.getenv("SPOOF_CHANNEL")));
@@ -172,6 +174,7 @@ public class TestBot {
 										e.printStackTrace();
 									}
 								} else if (m.getContent().startsWith(".clear")) {
+									/*
 									IChannel c = client.getChannelByID(m.getChannel().getLongID());
 									if (null != c) {
 										c.getMessageHistory().stream().filter(message -> message.getAuthor().getLongID()
@@ -184,6 +187,7 @@ public class TestBot {
 											}
 										});
 									}
+									*/
 								} else if (m.getContent().startsWith(".name ")) {
 									String s = m.getContent().split(" ", 2)[1];
 									try {

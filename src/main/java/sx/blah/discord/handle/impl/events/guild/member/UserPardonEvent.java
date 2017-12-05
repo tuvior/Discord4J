@@ -17,7 +17,6 @@
 
 package sx.blah.discord.handle.impl.events.guild.member;
 
-import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
 
 /**
@@ -25,7 +24,7 @@ import sx.blah.discord.handle.obj.IUser;
  */
 public class UserPardonEvent extends GuildMemberEvent {
 
-	public UserPardonEvent(IGuild guild, IUser user) {
-		super(guild, user);
+	public UserPardonEvent(long guildId, IUser user) {
+		super(guildId, user);
 	}
 }

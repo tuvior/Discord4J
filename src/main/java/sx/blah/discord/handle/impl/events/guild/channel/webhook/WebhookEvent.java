@@ -28,7 +28,7 @@ public abstract class WebhookEvent extends ChannelEvent {
 	private final IWebhook webhook;
 
 	public WebhookEvent(IWebhook webhook) {
-		super(webhook.getChannel());
+		super(webhook.getGuild().getLongID(), webhook.getChannel().getLongID());
 		this.webhook = webhook;
 	}
 

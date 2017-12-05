@@ -41,17 +41,7 @@ public interface IChannel extends IDiscordObject<IChannel> {
 	String getName();
 
 	/**
-	 * Gets the cached messages in the channel. The max size of this list is determined by
-	 * {@link sx.blah.discord.api.ClientBuilder#setMaxMessageCacheCount(int)}.
-	 *
-	 * @return The cached messages in the channel.
-	 */
-	MessageHistory getMessageHistory();
-
-	/**
 	 * Gets the specified number of messages.
-	 *
-	 * <p>If the internal message cache does not have enough messages, they will be fetched from Discord.
 	 *
 	 * @param messageCount The number of messages to retrieve.
 	 * @return The specified number of messages.
@@ -61,8 +51,6 @@ public interface IChannel extends IDiscordObject<IChannel> {
 	/**
 	 * Gets the messages from a given date to the beginning of the channel.
 	 *
-	 * <p>If the internal message cache does not have enough messages, they will be fetched from Discord.
-	 *
 	 * @param startDate The date to start at. (Inclusive)
 	 * @return The messages from a given date to the beginning of the channel.
 	 */
@@ -70,8 +58,6 @@ public interface IChannel extends IDiscordObject<IChannel> {
 
 	/**
 	 * Gets the messages from a given date to the beginning of the channel.
-	 *
-	 * <p>If the internal message cache does not have enough messages, they will be fetched from Discord.
 	 *
 	 * @param startDate The date to start at. (Inclusive)
 	 * @param maxMessageCount The maximum number of messages to retrieve.
@@ -82,8 +68,6 @@ public interface IChannel extends IDiscordObject<IChannel> {
 	/**
 	 * Gets the messages from a given message ID to the beginning of the channel.
 	 *
-	 * <p>If the internal message cache does not have enough messages, they will be fetched from Discord.
-	 *
 	 * @param id The ID to start gathering messages at. (Inclusive)
 	 * @return The messages from a given message ID to the beginning of the channel.
 	 */
@@ -91,8 +75,6 @@ public interface IChannel extends IDiscordObject<IChannel> {
 
 	/**
 	 * Gets the messages from a given message ID to the beginning of the channel.
-	 *
-	 * <p>If the internal message cache does not have enough messages, they will be fetched from Discord.
 	 *
 	 * @param id The ID to start gathering messages at. (Inclusive)
 	 * @param maxMessageCount The maximum number of messages to retrieve.
@@ -103,8 +85,6 @@ public interface IChannel extends IDiscordObject<IChannel> {
 	/**
 	 * Gets the messages from the current time to the given date.
 	 *
-	 * <p>If the internal message cache does not have enough messages, they will be fetched from Discord.
-	 *
 	 * @param endDate The date to stop at. (Inclusive)
 	 * @return The messages from the current time to the given date.
 	 */
@@ -112,8 +92,6 @@ public interface IChannel extends IDiscordObject<IChannel> {
 
 	/**
 	 * Gets the messages from the current time to the given date.
-	 *
-	 * <p>If the internal message cache does not have enough messages, they will be fetched from Discord.
 	 *
 	 * @param endDate The date to stop at. (Inclusive)
 	 * @param maxMessageCount The maximum number of messages to retrieve.
@@ -124,8 +102,6 @@ public interface IChannel extends IDiscordObject<IChannel> {
 	/**
 	 * Gets the messages from the current time to the given message ID.
 	 *
-	 * <p>If the internal message cache does not have enough messages, they will be fetched from Discord.
-	 *
 	 * @param id The ID to stop gathering messages at. (Inclusive)
 	 * @return The messages from the current time to the specified message ID.
 	 */
@@ -133,8 +109,6 @@ public interface IChannel extends IDiscordObject<IChannel> {
 
 	/**
 	 * Gets the messages from the current time to the given message ID.
-	 *
-	 * <p>If the internal message cache does not have enough messages, they will be fetched from Discord.
 	 *
 	 * @param id The ID to stop gathering messages at. (Inclusive)
 	 * @param maxMessageCount The maximum number of messages to retrieve.
@@ -145,8 +119,6 @@ public interface IChannel extends IDiscordObject<IChannel> {
 	/**
 	 * Gets the messages in the given range of dates.
 	 *
-	 * <p>If the internal message cache does not have enough messages, they will be fetched from Discord.
-	 *
 	 * @param startDate The date to start at. (Inclusive)
 	 * @param endDate The date to stop at (Inclusive)
 	 * @return The messages in the given range of dates.
@@ -155,8 +127,6 @@ public interface IChannel extends IDiscordObject<IChannel> {
 
 	/**
 	 * Gets the messages in the specified range of dates.
-	 *
-	 * <p>If the internal message cache does not have enough messages, they will be fetched from Discord.
 	 *
 	 * @param startDate The date to start at. (Inclusive)
 	 * @param endDate The date to stop at (Inclusive)
@@ -168,8 +138,6 @@ public interface IChannel extends IDiscordObject<IChannel> {
 	/**
 	 * Gets the messages in the given range of message IDs.
 	 *
-	 * <p>If the internal message cache does not have enough messages, they will be fetched from Discord.
-	 *
 	 * @param beginID The ID to start at (newest). (Inclusive)
 	 * @param endID The ID to stop at (oldest). (Inclusive)
 	 * @return The messages in the specified range of message IDs.
@@ -178,8 +146,6 @@ public interface IChannel extends IDiscordObject<IChannel> {
 
 	/**
 	 * Gets the messages in the given range of message IDs.
-	 *
-	 * <p>If the internal message cache does not have enough messages, they will be fetched from Discord.
 	 *
 	 * @param beginID The ID to start at (newest). (Inclusive)
 	 * @param endID The ID to stop at (oldest). (Inclusive)
@@ -192,7 +158,6 @@ public interface IChannel extends IDiscordObject<IChannel> {
 	 * Gets all of the messages in the channel.
 	 *
 	 * <p>This is a potentially extremely expensive operation that can take a large amount of time to complete.
-	 * <p>If the internal message cache does not have enough messages, they will be fetched from Discord.
 	 *
 	 * @return The messages.
 	 */
@@ -202,7 +167,6 @@ public interface IChannel extends IDiscordObject<IChannel> {
 	 * Bulk deletes as many messages as possible in the channel.
 	 *
 	 * <p>A message can be at most 2 weeks old to be eligible for bulk deletion.
-	 * <p>If the internal message cache does not have enough messages, they will be fetched from Discord.
 	 *
 	 * @return The deleted messages.
 	 */
@@ -220,24 +184,7 @@ public interface IChannel extends IDiscordObject<IChannel> {
 	List<IMessage> bulkDelete(List<IMessage> messages);
 
 	/**
-	 * Gets the maximum number of messages which can be cached in the channel.
-	 *
-	 * @return The maximum number of messages which can be cached in the channel.
-	 */
-	int getMaxInternalCacheCount();
-
-	/**
-	 * Gets the number of messages which are currently cached in the channel.
-	 *
-	 * @return The number of messages which are currently cached in the channel.
-	 */
-	int getInternalCacheCount();
-
-	/**
-	 * Gets a message by its unique snowflake ID from the channels's message cache <b>or</b> by fetching it from Discord.
-	 *
-	 * <p>Discord allows fetching individual messages in a channel. This method first checks the channel's message cache
-	 * and if there is no such message with the provided ID, it is requested from Discord.
+	 * Gets a message by its unique snowflake ID by fetching it from Discord.
 	 *
 	 * @param messageID The ID of the desired message.
 	 * @return The message with the provided ID (or null if one was not found).

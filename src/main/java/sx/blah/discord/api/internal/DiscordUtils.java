@@ -419,8 +419,7 @@ public class DiscordUtils {
 	}
 
 	/**
-	 * Converts a json {@link MessageObject} to a {@link IMessage}. This method first checks the internal message cache
-	 * and returns that object with updated information if it exists. Otherwise, it constructs a new message.
+	 * Converts a json {@link MessageObject} to a {@link IMessage}.
 	 *
 	 * @param channel The channel the message belongs to.
 	 * @param json The json object representing the message.
@@ -430,80 +429,27 @@ public class DiscordUtils {
 		if (json == null)
 			return null;
 
-		if (channel.messages.containsKey(json.id)) {
-			Message message = (Message) channel.getMessageByID(Long.parseUnsignedLong(json.id));
-			message.setAttachments(getAttachmentsFromJSON(json));
-			message.setEmbeds(getEmbedsFromJSON(json));
-			message.setContent(json.content);
-			message.setMentionsEveryone(json.mention_everyone);
-			message.setMentions(getMentionsFromJSON(json), getRoleMentionsFromJSON(json));
-			message.setTimestamp(convertFromTimestamp(json.timestamp));
-			message.setEditedTimestamp(
-					json.edited_timestamp == null ? null : convertFromTimestamp(json.edited_timestamp));
-			message.setPinned(Boolean.TRUE.equals(json.pinned));
-			message.setChannelMentions();
+		long authorId = Long.parseUnsignedLong(json.author.id);
+		IGuild guild = channel.isPrivate() ? null : channel.getGuild();
+		IUser author = guild == null ? getUserFromJSON(channel.getShard(), json.author) : guild
+				.getUsers()
+				.stream()
+				.filter(it -> it.getLongID() == authorId)
+				.findAny()
+				.orElseGet(() -> getUserFromJSON(channel.getShard(), json.author));
 
-			return message;
-		} else {
-			long authorId = Long.parseUnsignedLong(json.author.id);
-			IGuild guild = channel.isPrivate() ? null : channel.getGuild();
-			IUser author = guild == null ? getUserFromJSON(channel.getShard(), json.author) : guild
-					.getUsers()
-					.stream()
-					.filter(it -> it.getLongID() == authorId)
-					.findAny()
-					.orElseGet(() -> getUserFromJSON(channel.getShard(), json.author));
+		IMessage.Type type = Arrays.stream(IMessage.Type.values())
+				.filter(t -> t.getValue() == json.type)
+				.findFirst()
+				.orElse(IMessage.Type.UNKNOWN);
 
-			IMessage.Type type = Arrays.stream(IMessage.Type.values())
-					.filter(t -> t.getValue() == json.type)
-					.findFirst()
-					.orElse(IMessage.Type.UNKNOWN);
-
-			Message message = new Message(channel.getClient(), Long.parseUnsignedLong(json.id), json.content,
-					author, channel, convertFromTimestamp(json.timestamp),
-					json.edited_timestamp == null ? null : convertFromTimestamp(json.edited_timestamp),
-					json.mention_everyone, getMentionsFromJSON(json), getRoleMentionsFromJSON(json),
-					getAttachmentsFromJSON(json), Boolean.TRUE.equals(json.pinned), getEmbedsFromJSON(json),
-					json.webhook_id != null ? Long.parseUnsignedLong(json.webhook_id) : 0, type);
-			message.setReactions(getReactionsFromJSON(message, json.reactions));
-
-			return message;
-		}
-	}
-
-	/**
-	 * Updates a {@link IMessage} object with the non-null or non-empty contents of a json {@link MessageObject}.
-	 *
-	 * @param client The client this message belongs to.
-	 * @param toUpdate The message to update.
-	 * @param json The json object representing the message.
-	 * @return The updated message object.
-	 */
-	public static IMessage getUpdatedMessageFromJSON(IDiscordClient client, IMessage toUpdate, MessageObject json) {
-		if (toUpdate == null) {
-			Channel channel = (Channel) client.getChannelByID(Long.parseUnsignedLong(json.channel_id));
-			return channel == null ? null : channel.getMessageByID(Long.parseUnsignedLong(json.id));
-		}
-
-		Message message = (Message) toUpdate;
-		List<IMessage.Attachment> attachments = getAttachmentsFromJSON(json);
-		List<Embed> embeds = getEmbedsFromJSON(json);
-		if (!attachments.isEmpty())
-			message.setAttachments(attachments);
-		if (!embeds.isEmpty())
-			message.setEmbeds(embeds);
-		if (json.content != null) {
-			message.setContent(json.content);
-			message.setMentions(getMentionsFromJSON(json), getRoleMentionsFromJSON(json));
-			message.setMentionsEveryone(json.mention_everyone);
-			message.setChannelMentions();
-		}
-		if (json.timestamp != null)
-			message.setTimestamp(convertFromTimestamp(json.timestamp));
-		if (json.edited_timestamp != null)
-			message.setEditedTimestamp(convertFromTimestamp(json.edited_timestamp));
-		if (json.pinned != null)
-			message.setPinned(json.pinned);
+		Message message = new Message(channel.getClient(), Long.parseUnsignedLong(json.id), json.content,
+				author, channel, convertFromTimestamp(json.timestamp),
+				json.edited_timestamp == null ? null : convertFromTimestamp(json.edited_timestamp),
+				json.mention_everyone, getMentionsFromJSON(json), getRoleMentionsFromJSON(json),
+				getAttachmentsFromJSON(json), Boolean.TRUE.equals(json.pinned), getEmbedsFromJSON(json),
+				json.webhook_id != null ? Long.parseUnsignedLong(json.webhook_id) : 0, type);
+		message.setReactions(getReactionsFromJSON(message, json.reactions));
 
 		return message;
 	}

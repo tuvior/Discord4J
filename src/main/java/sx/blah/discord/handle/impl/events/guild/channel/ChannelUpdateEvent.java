@@ -27,7 +27,7 @@ public class ChannelUpdateEvent extends ChannelEvent {
 	private final IChannel oldChannel, newChannel;
 
 	public ChannelUpdateEvent(IChannel oldChannel, IChannel newChannel) {
-		super(newChannel);
+		super(newChannel.getGuild().getLongID(), newChannel.getLongID());
 		this.oldChannel = oldChannel;
 		this.newChannel = newChannel;
 	}

@@ -28,7 +28,7 @@ public abstract class RoleEvent extends GuildEvent {
 	private final IRole role;
 
 	public RoleEvent(IRole role) {
-		super(role.getGuild());
+		super(role.getGuild().getLongID());
 		this.role = role;
 	}
 

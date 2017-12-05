@@ -25,10 +25,10 @@ import sx.blah.discord.handle.obj.IGuild;
  */
 public abstract class GuildEvent extends Event {
 
-	private final IGuild guild;
+	private final long guildId;
 
-	public GuildEvent(IGuild guild) {
-		this.guild = guild;
+	public GuildEvent(long guildId) {
+		this.guildId = guildId;
 	}
 
 	/**
@@ -37,6 +37,10 @@ public abstract class GuildEvent extends Event {
 	 * @return The guild involved.
 	 */
 	public IGuild getGuild() {
-		return guild;
+		return getClient().getGuildByID(guildId);
+	}
+
+	public long getGuildId() {
+		return guildId;
 	}
 }

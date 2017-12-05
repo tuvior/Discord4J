@@ -33,8 +33,7 @@ public class VoiceDisconnectedEvent extends VoiceChannelEvent {
 	}
 
 	public VoiceDisconnectedEvent(IGuild guild, Reason reason) {
-		super(guild, guild.getConnectedVoiceChannel());
-		this.reason = reason;
+		this(guild.getConnectedVoiceChannel(), reason);
 	}
 
 	/**

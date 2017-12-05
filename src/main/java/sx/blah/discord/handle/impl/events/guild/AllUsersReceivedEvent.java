@@ -17,8 +17,6 @@
 
 package sx.blah.discord.handle.impl.events.guild;
 
-import sx.blah.discord.handle.obj.IGuild;
-
 /**
  * Dispatched when guild member chunking completes for a guild. Member chunking is automatically performed for guilds
  * with more members than 250 members.
@@ -27,7 +25,7 @@ import sx.blah.discord.handle.obj.IGuild;
  */
 public class AllUsersReceivedEvent extends GuildEvent {
 
-	public AllUsersReceivedEvent(IGuild guild) {
-		super(guild);
+	public AllUsersReceivedEvent(long guildId) {
+		super(guildId);
 	}
 }

@@ -17,7 +17,6 @@
 
 package sx.blah.discord.handle.impl.events.guild.member;
 
-import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
 
 import java.time.LocalDateTime;
@@ -29,8 +28,8 @@ public class UserJoinEvent extends GuildMemberEvent {
 
 	private final LocalDateTime joinTime;
 
-	public UserJoinEvent(IGuild guild, IUser user, LocalDateTime when) {
-		super(guild, user);
+	public UserJoinEvent(long guildId, IUser user, LocalDateTime when) {
+		super(guildId, user);
 		this.joinTime = when;
 	}
 

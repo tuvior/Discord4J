@@ -26,16 +26,11 @@ import java.util.Optional;
  */
 public class GuildUnavailableEvent extends GuildEvent {
 
-	private final long id;
+	private final long guildId;
 
-	public GuildUnavailableEvent(IGuild guild) {
-		super(guild);
-		this.id = guild.getLongID();
-	}
-
-	public GuildUnavailableEvent(long id) {
-		super(null);
-		this.id = id;
+	public GuildUnavailableEvent(long guildId) {
+		super(guildId);
+		this.guildId = guildId;
 	}
 
 	/**
@@ -53,6 +48,6 @@ public class GuildUnavailableEvent extends GuildEvent {
 	 * @return The ID of the guild that became unavailable.
 	 */
 	public long getGuildLongID() {
-		return id;
+		return guildId;
 	}
 }

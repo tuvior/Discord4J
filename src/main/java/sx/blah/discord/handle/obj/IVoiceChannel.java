@@ -154,14 +154,6 @@ public interface IVoiceChannel extends IChannel {
 	 */
 	@Override
 	@Deprecated
-	MessageHistory getMessageHistory();
-
-	/**
-	 * @deprecated See {@link IVoiceChannel} for details.
-	 * @throws UnsupportedOperationException Impossible to use as a voice channel.
-	 */
-	@Override
-	@Deprecated
 	MessageHistory getMessageHistory(int messageCount);
 
 	/**
@@ -235,22 +227,6 @@ public interface IVoiceChannel extends IChannel {
 	@Override
 	@Deprecated
 	List<IMessage> bulkDelete(List<IMessage> messages);
-
-	/**
-	 * @deprecated See {@link IVoiceChannel} for details.
-	 * @throws UnsupportedOperationException Impossible to use as a voice channel.
-	 */
-	@Override
-	@Deprecated
-	int getMaxInternalCacheCount();
-
-	/**
-	 * @deprecated See {@link IVoiceChannel} for details.
-	 * @throws UnsupportedOperationException Impossible to use as a voice channel.
-	 */
-	@Override
-	@Deprecated
-	int getInternalCacheCount();
 
 	/**
 	 * @deprecated See {@link IVoiceChannel} for details.

@@ -28,7 +28,11 @@ public class TypingEvent extends ChannelEvent {
 	private final IUser user;
 
 	public TypingEvent(IUser user, IChannel channel) {
-		super(channel);
+		this(user, channel.getGuild().getLongID(), channel.getLongID());
+	}
+
+	public TypingEvent(IUser user, long guildId, long channelId) {
+		super(guildId, channelId);
 		this.user = user;
 	}
 

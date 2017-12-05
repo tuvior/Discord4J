@@ -25,6 +25,10 @@ import sx.blah.discord.handle.obj.IChannel;
 public class ChannelCreateEvent extends ChannelEvent {
 
 	public ChannelCreateEvent(IChannel channel) {
-		super(channel);
+		this(channel.getGuild().getLongID(), channel.getLongID());
+	}
+
+	public ChannelCreateEvent(long guildId, long channelId) {
+		super(guildId, channelId);
 	}
 }

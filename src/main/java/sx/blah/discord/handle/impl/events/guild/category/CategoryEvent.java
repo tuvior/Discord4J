@@ -27,7 +27,7 @@ public abstract class CategoryEvent extends GuildEvent {
 	private final ICategory category;
 
 	public CategoryEvent(ICategory category) {
-		super(category.getGuild());
+		super(category.getGuild().getLongID());
 		this.category = category;
 	}
 

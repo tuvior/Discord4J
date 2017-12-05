@@ -195,11 +195,6 @@ public class VoiceChannel extends Channel implements IVoiceChannel {
 	}
 
 	@Override
-	public MessageHistory getMessageHistory() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public MessageHistory getMessageHistory(int messageCount) {
 		throw new UnsupportedOperationException();
 	}
@@ -246,16 +241,6 @@ public class VoiceChannel extends Channel implements IVoiceChannel {
 
 	@Override
 	public List<IMessage> bulkDelete(List<IMessage> messages) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public int getMaxInternalCacheCount() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public int getInternalCacheCount() {
 		throw new UnsupportedOperationException();
 	}
 

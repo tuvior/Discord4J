@@ -17,7 +17,6 @@
 
 package sx.blah.discord.handle.impl.events.guild.member;
 
-import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IRole;
 import sx.blah.discord.handle.obj.IUser;
 
@@ -30,8 +29,8 @@ public class UserRoleUpdateEvent extends GuildMemberEvent {
 
 	private final List<IRole> oldRoles, newRoles;
 
-	public UserRoleUpdateEvent(IGuild guild, IUser user, List<IRole> oldRoles, List<IRole> newRoles) {
-		super(guild, user);
+	public UserRoleUpdateEvent(long guildId, IUser user, List<IRole> oldRoles, List<IRole> newRoles) {
+		super(guildId, user);
 		this.oldRoles = oldRoles;
 		this.newRoles = newRoles;
 	}

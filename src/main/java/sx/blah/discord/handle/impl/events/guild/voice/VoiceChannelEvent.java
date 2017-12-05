@@ -29,11 +29,7 @@ public abstract class VoiceChannelEvent extends GuildEvent {
 	private final IVoiceChannel voiceChannel;
 
 	public VoiceChannelEvent(IVoiceChannel voiceChannel) {
-		this(voiceChannel.getGuild(), voiceChannel);
-	}
-
-	public VoiceChannelEvent(IGuild guild, IVoiceChannel voiceChannel) {
-		super(guild);
+		super(voiceChannel.getGuild().getLongID());
 		this.voiceChannel = voiceChannel;
 	}
 

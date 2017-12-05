@@ -24,7 +24,15 @@ import sx.blah.discord.handle.obj.IGuild;
  */
 public class GuildLeaveEvent extends GuildEvent {
 
+	private final IGuild guild;
+
 	public GuildLeaveEvent(IGuild guild) {
-		super(guild);
+		super(guild.getLongID());
+		this.guild = guild;
+	}
+
+	@Override
+	public IGuild getGuild() {
+		return guild;
 	}
 }
